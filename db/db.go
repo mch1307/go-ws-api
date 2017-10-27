@@ -44,7 +44,7 @@ func InitDB() {
 
 	dataFile, err := ioutil.ReadFile("data.json")
 	if err != nil {
-		log.Println("error readinf data file: ", err)
+		log.Println("error reading data file: ", err)
 	}
 	if err := json.Unmarshal(dataFile, &tmpDevices); err != nil {
 		log.Println("error parsing data file ", err)
