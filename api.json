@@ -1,0 +1,151 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "workshop",
+      "description": "workshop api",
+      "license": {
+        "name": "MIT License",
+        "url": "https://opensource.org/licenses/MIT"
+      },
+      "version": "1.0.0"
+    },
+    "paths": {
+      "/api/v1/devices": {
+        "get": {
+          "summary": "List devices",
+          "description": "list all devices",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/device"
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "description": "register new device",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "description": "device",
+              "schema": {
+                "$ref": "#/definitions/device"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      },
+      "/api/v1/devices/{id}": {
+        "get": {
+          "description": "get device by id",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Internal ID",
+              "required": true,
+              "type": "integer"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/device"
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/devices/{id}/{value}": {
+        "post": {
+          "description": "change state of a device",
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Internal ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "in": "path",
+            "description": "target value (0 closed <-> 100 open for onOff, intermediate value for dimmer)",
+            "required": true,
+            "type": "integer"
+          }
+        ]
+      },
+      "/api/v1/devices/{type}/": {
+        "get": {
+          "description": "list devices of a given type",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/device"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "description": "device type (onOff, dimmer or sensor)",
+            "required": true,
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "definitions": {
+      "device": {
+        "title": "Root Type for device",
+        "description": "The root of the device type's schema.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "hardware": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "state": {
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }

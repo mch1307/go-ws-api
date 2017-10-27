@@ -1,0 +1,112 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "device.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/device": {
+      "get": {
+        "summary": "List all registered devices",
+        "operationId": "GetAllDevices",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/pbDevices"
+            }
+          }
+        },
+        "tags": [
+          "NHC"
+        ]
+      }
+    },
+    "/api/v1/device/{id}": {
+      "get": {
+        "summary": "Get a device by ID",
+        "operationId": "GetDeviceByID",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/pbDevice"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "NHC"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "DeviceDeviceType": {
+      "type": "string",
+      "enum": [
+        "onOff",
+        "dimmer",
+        "sensor"
+      ],
+      "default": "onOff"
+    },
+    "pbDevice": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "hardware": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/DeviceDeviceType"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "state": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "pbDevices": {
+      "type": "object",
+      "properties": {
+        "device": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbDevice"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/api/annotations.proto";
+
+service NHC {
+    // List all registered devices
+    rpc GetAllDevices(Empty) returns (Devices) {
+        option (google.api.http) = {
+            get: "/api/v1/device"
+          };
+    }
+    // Get a device by ID
+    rpc GetDeviceByID(ID) returns (Device) {
+        option (google.api.http).get = "/api/v1/device/{id}";
+    }
+
+}
+
+message ID {
+    int32 id = 1;
+}
+
+message Device {
+    int32 id = 1;
+    string hardware = 2;
+    string name = 3;
+    string location = 4;
+    enum DeviceType {
+        onOff = 0;
+        dimmer = 1;
+        sensor = 2;
+    }
+    DeviceType type = 5;
+    string unit = 6;
+    int32 state = 7;
+};
+
+message Devices {
+    repeated Device device = 1;
+};
+
+message Empty {
+};

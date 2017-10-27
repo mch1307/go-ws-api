@@ -1,0 +1,46 @@
+{
+    "items":[
+        {
+            "id": 1,
+            "hardware": "philips",
+            "name": "light",
+            "location" : "kitchen",
+            "type": "onOff",
+            "state": 0
+        },
+        {
+            "id": 2,
+            "hardware": "osram",
+            "name": "light",
+            "location" : "bedroom",
+            "type": "onOff",
+            "state": 0
+        },
+        {
+            "id": 3,
+            "hardware": "artemide",
+            "name": "kitchen light",
+            "location" : "living room",
+            "type": "dimmer",
+            "state": 30
+        },
+        {
+            "id": 4,
+            "hardware": "oregon scientific",
+            "name": "temperature",
+            "location" : "bedroom",
+            "type": "sensor",
+            "unit": "°C",
+            "state": 0
+        },
+        {
+            "id": 5,
+            "hardware": "oregon scientific",
+            "name": "humidity",
+            "type": "sensor",
+            "location" : "bedroom",
+            "unit": "%",
+            "state": 40
+        }
+    ]
+}
