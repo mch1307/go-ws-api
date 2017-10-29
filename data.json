@@ -6,7 +6,7 @@
             "name": "light",
             "location" : "kitchen",
             "type": "onOff",
-            "state": 0
+            "state": 100
         },
         {
             "id": 2,
@@ -14,7 +14,7 @@
             "name": "light",
             "location" : "bedroom",
             "type": "onOff",
-            "state": 0
+            "state": 100
         },
         {
             "id": 3,
@@ -31,7 +31,7 @@
             "location" : "bedroom",
             "type": "sensor",
             "unit": "°C",
-            "state": 0
+            "state": 2
         },
         {
             "id": 5,
@@ -41,6 +41,14 @@
             "location" : "bedroom",
             "unit": "%",
             "state": 40
+        },
+        {
+            "id": 6,
+            "hardware": "osram",
+            "name": "light",
+            "location" : "bedroom 2",
+            "type": "onOff",
+            "state": 0
         }
     ]
 }

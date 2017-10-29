@@ -4,23 +4,41 @@ package pb;
 
 import "google/api/annotations.proto";
 
-service NHC {
+service DeviceService {
     // List all registered devices
     rpc GetAllDevices(Empty) returns (Devices) {
         option (google.api.http) = {
             get: "/api/v1/device"
           };
-    }
+    };
     // Get a device by ID
     rpc GetDeviceByID(ID) returns (Device) {
         option (google.api.http).get = "/api/v1/device/{id}";
-    }
-
-}
+    };
+    // Update a device's state
+    rpc SwitchDevice(UpdateDevice) returns (Device) {
+        option (google.api.http) = {
+            post: "/api/v1/device/{id}/{value}"
+            body: "*"
+        };
+    };
+    // Register a new device
+    rpc RegisterDevice(Device) returns (Device) {
+        option (google.api.http) = {
+            post: "/api/v1/device"
+            body: "*"
+        };
+    };
+};
 
 message ID {
     int32 id = 1;
-}
+};
+
+message UpdateDevice {
+    int32 id = 1;
+    int32 value = 2;
+};
 
 message Device {
     int32 id = 1;
@@ -28,9 +46,10 @@ message Device {
     string name = 3;
     string location = 4;
     enum DeviceType {
-        onOff = 0;
-        dimmer = 1;
-        sensor = 2;
+        unknown = 0;
+        onOff = 1;
+        dimmer = 2;
+        sensor = 3;
     }
     DeviceType type = 5;
     string unit = 6;

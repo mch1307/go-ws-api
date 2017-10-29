@@ -2,11 +2,12 @@ package db
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
-	//"sgithub.sgbt.lu/champam1/go-api/types"
-	"sgithub.sgbt.lu/champam1/go-api/pb"
+
+	"github.com/mch1307/go-ws-api/pb"
 )
 
 // Devices stores the device definition
@@ -35,11 +36,13 @@ func getDeviceType(s string) pb.Device_DeviceType {
 	for v, k := range pb.Device_DeviceType_value {
 		if v == s {
 			ret = pb.Device_DeviceType(k)
+			return ret
 		}
 	}
 	return ret
 }
 
+// InitDB initialize the "db" with data.json file
 func InitDB() {
 
 	dataFile, err := ioutil.ReadFile("data.json")
@@ -62,10 +65,12 @@ func InitDB() {
 	}
 }
 
+// GetAllDevices returns all devices
 func GetAllDevices() (list pb.Devices) {
 	return Devices
 }
 
+// GetDeviceByID returns single device by id
 func GetDeviceByID(id int32) *pb.Device {
 	device := new(pb.Device)
 	for _, res := range Devices.Device {
@@ -77,9 +82,19 @@ func GetDeviceByID(id int32) *pb.Device {
 	return device
 }
 
+// SwitchDevice update the state of a given device
 func SwitchDevice(id, val int32) (device *pb.Device, err error) {
-	dev := GetDeviceByID(id)
-	dev.State = val
-	return dev, err
+	found := false
+	for _, v := range Devices.Device {
+		if v.GetId() == id {
+			v.State = val
+			device = v
+			found = true
+		}
+	}
+	if !found {
+		err = errors.New("device not found")
+	}
+	return device, err
 
 }
