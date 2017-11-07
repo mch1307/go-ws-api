@@ -16,23 +16,6 @@ import (
 const grpcPort = ":8082"
 const httpPort = ":8081"
 
-// runHTTP runs the HTTP server for Rest API proxy
-func runHTTP() error {
-	ctx := context.Background()
-	ctx, cancel := context.WithCancel(ctx)
-	defer cancel()
-
-	mux := runtime.NewServeMux()
-
-	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := pb.RegisterDeviceServiceHandlerFromEndpoint(ctx, mux, "localhost"+grpcPort, opts)
-	if err != nil {
-		return err
-	}
-
-	return http.ListenAndServe(httpPort, mux)
-}
-
 func main() {
 	log.Println("Starting application")
 	db.InitDB()
@@ -46,7 +29,6 @@ func main() {
 	server := grpc.NewServer()
 	//register service
 	pb.RegisterDeviceServiceServer(server, new(DeviceService))
-	//pb.RegisterNHCServer(server, new(NHCService))
 
 	log.Println("Starting grpc server on port " + grpcPort)
 
@@ -55,8 +37,33 @@ func main() {
 
 	// Start the HTTP server for Rest
 	log.Println("Starting HTTP server on port " + httpPort)
-	runHTTP()
+	run()
 }
+
+func run() error {
+	ctx := context.Background()
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	mux := runtime.NewServeMux()
+	opts := []grpc.DialOption{grpc.WithInsecure()}
+	err := pb.RegisterDeviceServiceHandlerFromEndpoint(ctx, mux, "localhost"+grpcPort, opts)
+	if err != nil {
+		return err
+	}
+
+	swagger := http.FileServer(http.Dir("./3rdparty/swagger-ui"))
+	http.Handle("/swagger/", swagger)
+
+	return http.ListenAndServe(httpPort, mux)
+}
+
+/* func main() {
+
+	if err := run(); err != nil {
+		glog.Fatal(err)
+	}
+} */
 
 type DeviceService struct{}
 

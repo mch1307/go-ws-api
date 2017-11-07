@@ -8,24 +8,24 @@ service DeviceService {
     // List all registered devices
     rpc GetAllDevices(Empty) returns (Devices) {
         option (google.api.http) = {
-            get: "/api/v1/device"
+            get: "/api/v1/devices"
           };
     };
     // Get a device by ID
     rpc GetDeviceByID(ID) returns (Device) {
-        option (google.api.http).get = "/api/v1/device/{id}";
+        option (google.api.http).get = "/api/v1/devices/{id}";
     };
     // Update a device's state
     rpc SwitchDevice(UpdateDevice) returns (Device) {
         option (google.api.http) = {
-            post: "/api/v1/device/{id}/{value}"
+            post: "/api/v1/devices/{id}/{value}"
             body: "*"
         };
     };
     // Register a new device
     rpc RegisterDevice(Device) returns (Device) {
         option (google.api.http) = {
-            post: "/api/v1/device"
+            post: "/api/v1/devices"
             body: "*"
         };
     };
