@@ -5,6 +5,8 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
+	"path/filepath"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/mch1307/go-ws-api/db"
@@ -40,21 +42,30 @@ func main() {
 	run()
 }
 
+func serveSwagger(w http.ResponseWriter, r *http.Request) {
+	//swagger := http.FileServer(http.Dir("./3rdparty/swagger-ui"))
+	fmt.Println("request", r.RequestURI)
+	http.ServeFile(w, r, "./3rdparty/swagger-ui/")
+
+}
+
 func run() error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	mux := runtime.NewServeMux()
+	gw := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := pb.RegisterDeviceServiceHandlerFromEndpoint(ctx, mux, "localhost"+grpcPort, opts)
+	err := pb.RegisterDeviceServiceHandlerFromEndpoint(ctx, gw, "localhost"+grpcPort, opts)
 	if err != nil {
 		return err
 	}
-
-	swagger := http.FileServer(http.Dir("./3rdparty/swagger-ui"))
-	http.Handle("/swagger/", swagger)
-
+	mux := http.NewServeMux()
+	curdir, _ := os.Getwd()
+	fmt.Println("cur dir", curdir)
+	swagger := http.FileServer(http.Dir(filepath.Join(curdir, "3rdparty", "swagger-ui")))
+	mux.Handle("/swagger/", swagger)
+	mux.Handle("/", gw)
 	return http.ListenAndServe(httpPort, mux)
 }
 
