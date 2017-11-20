@@ -2,19 +2,20 @@
 
 Sample gRPC / Rest API project in Go
 
-Uses [protoc](http://github.com/google/protobuf), [gRPC](grpc.io) and [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway) for Rest and OpenAPI/Swagger
+Uses [protoc](http://github.com/google/protobuf), [gRPC](http://grpc.io) and [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway) for Rest and OpenAPI/Swagger
 
 ## Context
 
-In this example we build a small "home automation" system to drive some devices like lights, shutters and sensors.
-We want to expose endpoints to:
+In this example we have a small "home control" system that simply turn on/off some lights.
+
+As our system grows in popularity, we want to open it to the world, and to achieve this, we will develop an API. For the first mileston, we want to expose the following endpoints:
 
 * list all registered devices
 * find a device by it's id
 * switch a device on, off or dim
-* create / register a device
+* create / register a new device
 
-The following is a device JSON representation we will use in this project
+The following is a device's JSON representation we use in this project
 
 ```json
 {

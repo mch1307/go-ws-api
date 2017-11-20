@@ -6,7 +6,8 @@ import (
 	"net"
 	"net/http"
 	"os"
-	"path/filepath"
+	"path"
+	"strings"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/mch1307/go-ws-api/db"
@@ -44,8 +45,11 @@ func main() {
 
 func serveSwagger(w http.ResponseWriter, r *http.Request) {
 	//swagger := http.FileServer(http.Dir("./3rdparty/swagger-ui"))
-	fmt.Println("request", r.RequestURI)
-	http.ServeFile(w, r, "./3rdparty/swagger-ui/")
+	fmt.Println("request", r.URL.Path)
+	p := strings.TrimPrefix(r.URL.Path, "/swagger/")
+	p = path.Join("3rdparty/swagger-ui/", p)
+	fmt.Println("request map ", p)
+	http.ServeFile(w, r, p)
 
 }
 
@@ -61,11 +65,13 @@ func run() error {
 		return err
 	}
 	mux := http.NewServeMux()
+	mux.HandleFunc("/swagger/", serveSwagger)
 	curdir, _ := os.Getwd()
 	fmt.Println("cur dir", curdir)
-	swagger := http.FileServer(http.Dir(filepath.Join(curdir, "3rdparty", "swagger-ui")))
-	mux.Handle("/swagger/", swagger)
-	mux.Handle("/", gw)
+	//swagger := http.FileServer(http.Dir(filepath.Join(curdir, "3rdparty", "swagger-ui")))
+	//mux.Handle("/swagger/", swagger)
+	mux.Handle("/api/", gw)
+
 	return http.ListenAndServe(httpPort, mux)
 }
 

@@ -15,7 +15,7 @@
     "application/json"
   ],
   "paths": {
-    "/api/v1/device": {
+    "/api/v1/devices": {
       "get": {
         "summary": "List all registered devices",
         "operationId": "GetAllDevices",
@@ -57,7 +57,7 @@
         ]
       }
     },
-    "/api/v1/device/{id}": {
+    "/api/v1/devices/{id}": {
       "get": {
         "summary": "Get a device by ID",
         "operationId": "GetDeviceByID",
@@ -83,7 +83,7 @@
         ]
       }
     },
-    "/api/v1/device/{id}/{value}": {
+    "/api/v1/devices/{id}/{value}": {
       "post": {
         "summary": "Update a device's state",
         "operationId": "SwitchDevice",

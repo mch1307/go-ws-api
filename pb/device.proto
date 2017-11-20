@@ -3,6 +3,29 @@ syntax = "proto3";
 package pb;
 
 import "google/api/annotations.proto";
+//import "google/protobuf/empty.proto";
+//import "google/protobuf/duration.proto";
+//import "google/protobuf/timestamp.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+    info: {
+      title: "A Bit of Everything";
+      version: "1.0";
+      contact: {
+        name: "gRPC-Gateway project";
+        url: "https://github.com/grpc-ecosystem/grpc-gateway";
+        email: "none@example.com";
+      };
+    };
+    schemes: HTTP;
+    schemes: HTTPS;
+    schemes: WSS;
+    consumes: "application/json";
+    consumes: "application/x-foo-mime";
+    produces: "application/json";
+    produces: "application/x-foo-mime";
+  };
 
 service DeviceService {
     // List all registered devices
