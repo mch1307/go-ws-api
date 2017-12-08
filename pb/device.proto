@@ -10,21 +10,20 @@ import "protoc-gen-swagger/options/annotations.proto";
 
 option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
     info: {
-      title: "A Bit of Everything";
+      title: "go-ws-api";
       version: "1.0";
       contact: {
-        name: "gRPC-Gateway project";
-        url: "https://github.com/grpc-ecosystem/grpc-gateway";
+        name: "sgoLight";
+        url: "https://github.com/mch1307/ws-go-api";
         email: "none@example.com";
       };
     };
+
     schemes: HTTP;
     schemes: HTTPS;
     schemes: WSS;
     consumes: "application/json";
-    consumes: "application/x-foo-mime";
     produces: "application/json";
-    produces: "application/x-foo-mime";
   };
 
 service DeviceService {

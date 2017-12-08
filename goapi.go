@@ -75,25 +75,22 @@ func run() error {
 	return http.ListenAndServe(httpPort, mux)
 }
 
-/* func main() {
-
-	if err := run(); err != nil {
-		glog.Fatal(err)
-	}
-} */
-
+// DeviceService service for devices
 type DeviceService struct{}
 
+// GetAllDevices returns all registered devices
 func (s *DeviceService) GetAllDevices(ctx context.Context, req *pb.Empty) (*pb.Devices, error) {
 	devices := db.GetAllDevices()
 	return &devices, nil
 }
 
+// GetDeviceByID returns a specific device
 func (s *DeviceService) GetDeviceByID(ctx context.Context, id *pb.ID) (*pb.Device, error) {
 	device := db.GetDeviceByID(id.Id)
 	return device, nil
 }
 
+// SwitchDevice turns a device on or off
 func (s *DeviceService) SwitchDevice(ctx context.Context, device *pb.UpdateDevice) (*pb.Device, error) {
 	updatedDevice, err := db.SwitchDevice(device.Id, device.Value)
 	if err != nil {
@@ -102,6 +99,7 @@ func (s *DeviceService) SwitchDevice(ctx context.Context, device *pb.UpdateDevic
 	return updatedDevice, err
 }
 
+// RegisterDevice registers a new device
 func (s *DeviceService) RegisterDevice(ctx context.Context, device *pb.Device) (*pb.Device, error) {
 	return nil, nil
 }
