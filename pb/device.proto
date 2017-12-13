@@ -13,15 +13,13 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
       title: "go-ws-api";
       version: "1.0";
       contact: {
-        name: "sgoLight";
+        name: "go-ws-api";
         url: "https://github.com/mch1307/ws-go-api";
         email: "none@example.com";
       };
     };
-
     schemes: HTTP;
     schemes: HTTPS;
-    schemes: WSS;
     consumes: "application/json";
     produces: "application/json";
   };
