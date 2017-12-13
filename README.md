@@ -47,5 +47,5 @@ The following is a device's JSON representation we use in this project
 * generate the [OpenAPI spec/doc](./device.swagger.json)
 
     ```cmd
-    protoc -I. -I%GOPATH%\src -I%GOPATH%\src\github.com\grpc-ecosystem\grpc-gateway\third_party\googleapis --swagger_out=logtostderr=true:. device.proto
+    protoc -I. -I%GOPATH%\src -I%GOPATH%\src\github.com\grpc-ecosystem\grpc-gateway\third_party\googleapis -I%GOPATH%\src\github.com\grpc-ecosystem\grpc-gateway --swagger_out=logtostderr=true:. device.proto
     ```
